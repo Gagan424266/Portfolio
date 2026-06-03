@@ -1,4 +1,11 @@
-import { lazy, PropsWithChildren, Suspense, useEffect, useState } from "react";
+import {
+  lazy,
+  PropsWithChildren,
+  Suspense,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import About from "./About";
 import Career from "./Career";
 import Education from "./Education";
@@ -17,6 +24,25 @@ const MainContainer = ({ children }: PropsWithChildren) => {
   const [isDesktopView, setIsDesktopView] = useState<boolean>(
     window.innerWidth > 1024
   );
+  const [showTechStack, setShowTechStack] = useState(false);
+  const techRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!isDesktopView) return;
+    const el = techRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShowTechStack(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [isDesktopView]);
 
   useEffect(() => {
     const resizeHandler = () => {
@@ -46,9 +72,13 @@ const MainContainer = ({ children }: PropsWithChildren) => {
             <Education />
             <Work />
             {isDesktopView && (
-              <Suspense fallback={<div>Loading....</div>}>
-                <TechStack />
-              </Suspense>
+              <div ref={techRef} className="techstack-lazy-anchor">
+                {showTechStack && (
+                  <Suspense fallback={null}>
+                    <TechStack />
+                  </Suspense>
+                )}
+              </div>
             )}
             <Contact />
           </div>

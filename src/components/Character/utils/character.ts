@@ -25,9 +25,8 @@ const setCharacter = (
         let character: THREE.Object3D;
         loader.load(
           blobUrl,
-          async (gltf) => {
+          (gltf) => {
             character = gltf.scene;
-            await renderer.compileAsync(character, camera, scene);
             character.traverse((child: any) => {
               if (child.isMesh) {
                 const mesh = child as THREE.Mesh;
@@ -36,12 +35,15 @@ const setCharacter = (
                 mesh.frustumCulled = true;
               }
             });
+            const footR = character.getObjectByName("footR");
+            const footL = character.getObjectByName("footL");
+            if (footR) footR.position.y = 3.36;
+            if (footL) footL.position.y = 3.36;
             resolve(gltf);
             setCharTimeline(character, camera);
             setAllTimeline();
-            character!.getObjectByName("footR")!.position.y = 3.36;
-            character!.getObjectByName("footL")!.position.y = 3.36;
             dracoLoader.dispose();
+            renderer.compileAsync(character, camera, scene).catch(() => {});
           },
           undefined,
           (error) => {
