@@ -1,0 +1,125 @@
+/** Portfolio content — Gagan Yadav */
+export const profile = {
+  name: "Gagan Yadav",
+  firstName: "GAGAN",
+  lastName: "YADAV",
+  title: "Full-stack Developer",
+  location: "New Delhi, India",
+  dob: "24 Jan 2002",
+  email: "gaganyadav424266@gmail.com",
+  phone: "+91 93706 76861",
+  phoneTel: "+919370676861",
+  githubUrl: "https://github.com/Gagan424266",
+  linkedinUrl: "https://www.linkedin.com/in/gagan-yadav-584a9a214/",
+  resumeUrl: "/resume/Gagan-Yadav-Resume.docx",
+  tagline: { line1: "Full-stack", line2: "Developer" },
+  logo: "GY",
+  about: `Full-stack developer building low-latency trading dashboards, real-time data pipelines, and modern web platforms. I work across React, Python, C++, and Django — from tick-level OHLCV aggregation to polished UIs that stay fast under peak load.`,
+  interests: [
+    "Web design & development",
+    "Cloud security",
+    "Debugging & performance",
+  ],
+  education: {
+    degree: "Bachelor of Engineering",
+    school: "Army Institute of Technology, Pune (SPPU)",
+    period: "Jun 2018 — Jun 2022",
+    detail: "CGPA 7.9",
+    coursework: [
+      "Data Structures & Algorithms",
+      "Operating Systems",
+      "Object Oriented Programming",
+      "Database Management Systems",
+      "Software Engineering",
+    ],
+  },
+  experience: [
+    {
+      role: "Software Developer",
+      company: "Gray Marrow",
+      location: "Gurugram, Haryana",
+      period: "Jan 2025 — Present",
+      periodShort: "NOW",
+      highlights: [
+        "Low-latency trading dashboards in React.js on Linux — interaction speeds up ~35%, peak-load responsiveness up ~25%.",
+        "Python (Pandas, NumPy) for tick-level OHLCV candles (1s / 1m / 5m) powering real-time charting and indicators.",
+        "UI refactors with HTML5, CSS3, JSX — ~30% faster page loads and stronger internal-tool engagement.",
+        "C++ trading components on Linux — up to 35% lower processing latency via multithreading and memory tuning.",
+      ],
+    },
+    {
+      role: "Full Stack Developer",
+      company: "Solytics Partners",
+      location: "Pune, Maharashtra",
+      period: "Apr 2023 — Dec 2024",
+      periodShort: "2023–24",
+      highlights: [
+        "Legacy modernisation with React, Redux, and React Table — ~40% performance gain and multi-second load-time cuts.",
+        "Complex React + Node.js app — ~50% MAU growth and ~20% fewer support tickets in six months.",
+        "React, Axios, Material-UI 5, Formik, Yup, React Router — measurable UX and engagement gains.",
+        "Django REST APIs — ~40% faster server responses and higher user satisfaction.",
+      ],
+    },
+  ],
+  projects: [
+    {
+      title: "Web-Based Facial Authentication",
+      category: "Liveness detection",
+      tools:
+        "Chrome, Python, React.js, Bootstrap — team lead; ~40% fewer unauthorized access incidents.",
+      image: "/images/placeholder.webp",
+    },
+    {
+      title: "Realtime Chat App",
+      category: "React · Firebase",
+      tools:
+        "React.js, Firebase Auth, Firestore — real-time messaging, faster auth flows, improved scalability.",
+      image: "/images/placeholder.webp",
+    },
+  ],
+  develop: {
+    subtitle: "Web & full-stack",
+    description:
+      "Product-facing apps with React, Redux, and Node — dashboards, internal tools, and APIs that stay fast as usage grows.",
+    tags: [
+      "React.js",
+      "Redux",
+      "TypeScript",
+      "JavaScript",
+      "Node.js",
+      "Django",
+      "Material-UI",
+      "HTML5",
+      "CSS3",
+    ],
+  },
+  systems: {
+    subtitle: "Data & low-latency systems",
+    description:
+      "Python market-data pipelines, C++ on Linux, and performance work for trading and real-time analytics.",
+    tags: [
+      "Python",
+      "C++",
+      "Pandas",
+      "NumPy",
+      "MongoDB",
+      "MySQL",
+      "Firebase",
+      "AWS",
+    ],
+  },
+  skills: {
+    languages: ["C/C++", "Python", "JavaScript (ES6+)", "TypeScript", "HTML5", "CSS3", "Java"],
+    frontend: ["React.js", "Redux", "React Router", "JSX", "Material-UI", "Bootstrap"],
+    backend: ["Node.js", "Django", "Django REST Framework"],
+    data: ["MongoDB", "MySQL", "Firebase", "Pandas", "NumPy"],
+    tools: ["Git", "GitHub", "AWS", "Postman", "VS Code", "Webpack", "Jenkins"],
+    practices: ["Agile", "CI/CD", "Code reviews", "Unit testing"],
+  },
+  loadingMarquee: [
+    "Full-stack Developer",
+    "React · Python · C++",
+    "Low-latency dashboards",
+    "Real-time systems",
+  ],
+} as const;
