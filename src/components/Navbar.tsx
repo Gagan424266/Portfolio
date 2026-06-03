@@ -39,9 +39,11 @@ const Navbar = () => {
           href={`mailto:${profile.email}`}
           className="navbar-connect"
           data-cursor="disable"
+          title={profile.email}
         >
           {profile.email}
         </a>
+        <nav className="header-nav">
         <ul>
           <li>
             <a data-href="#about" href="#about">
@@ -69,6 +71,7 @@ const Navbar = () => {
             </a>
           </li>
         </ul>
+        </nav>
       </div>
 
       <div className="landing-circle1"></div>
