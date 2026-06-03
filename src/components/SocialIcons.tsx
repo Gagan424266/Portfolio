@@ -69,7 +69,8 @@ const SocialIcons = () => {
       <a
         className="resume-button"
         href={profile.resumeUrl}
-        download
+        target="_blank"
+        rel="noreferrer"
         data-cursor="disable"
       >
         <HoverLinks text="RESUME" />

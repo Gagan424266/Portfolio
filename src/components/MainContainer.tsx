@@ -16,6 +16,7 @@ import Navbar from "./Navbar";
 import SocialIcons from "./SocialIcons";
 import WhatIDo from "./WhatIDo";
 import Work from "./Work";
+import Resume from "./Resume";
 import setSplitText from "./utils/splitText";
 
 const TechStack = lazy(() => import("./TechStack"));
@@ -71,6 +72,7 @@ const MainContainer = ({ children }: PropsWithChildren) => {
             <Career />
             <Education />
             <Work />
+            <Resume />
             {isDesktopView && (
               <div ref={techRef} className="techstack-lazy-anchor">
                 {showTechStack && (

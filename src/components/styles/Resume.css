@@ -1,0 +1,82 @@
+.resume-section {
+  margin: 120px auto 80px;
+  width: var(--cWidth);
+  max-width: var(--cMaxWidth);
+}
+
+.resume-section h2 {
+  font-size: 70px;
+  font-weight: 500;
+  margin: 0 0 24px;
+}
+
+.resume-section h2 > span {
+  color: var(--accentColor);
+}
+
+.resume-intro {
+  font-size: 18px;
+  font-weight: 300;
+  opacity: 0.85;
+  max-width: 640px;
+  margin: 0 0 32px;
+  line-height: 1.6;
+}
+
+.resume-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.resume-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 100px;
+  font-size: 16px;
+  font-weight: 500;
+  transition: 0.25s ease;
+}
+
+.resume-btn:hover {
+  color: inherit;
+  border-color: var(--accentColor);
+  background: rgba(194, 164, 255, 0.12);
+}
+
+.resume-btn-primary {
+  background: rgba(194, 164, 255, 0.15);
+  border-color: var(--accentColor);
+}
+
+.resume-preview {
+  width: 100%;
+  border: 1px solid #363636;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #111;
+  min-height: 480px;
+}
+
+.resume-iframe {
+  width: 100%;
+  height: 72vh;
+  min-height: 480px;
+  border: none;
+  display: block;
+}
+
+@media only screen and (max-width: 900px) {
+  .resume-section h2 {
+    font-size: 42px;
+  }
+
+  .resume-iframe {
+    height: 55vh;
+    min-height: 360px;
+  }
+}

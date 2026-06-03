@@ -13,7 +13,8 @@ export const profile = {
   phoneTel: "+919370676861",
   githubUrl: "https://github.com/Gagan424266",
   linkedinUrl: "https://www.linkedin.com/in/gagan-yadav-584a9a214/",
-  resumeUrl: assetUrl("resume/Gagan-Yadav-Resume.docx"),
+  resumeUrl: assetUrl("resume/Gagan-Yadav-Resume.pdf"),
+  resumeFileName: "Gagan-Yadav-Resume.pdf",
   tagline: { line1: "Full-stack", line2: "Developer" },
   logo: "GY",
   about: `Full-stack developer building low-latency trading dashboards, real-time data pipelines, and modern web platforms. I work across React, Python, C++, and Django — from tick-level OHLCV aggregation to polished UIs that stay fast under peak load.`,
@@ -65,18 +66,40 @@ export const profile = {
   ],
   projects: [
     {
-      title: "Web-Based Facial Authentication",
-      category: "Liveness detection",
-      tools:
-        "Chrome, Python, React.js, Bootstrap — team lead; ~40% fewer unauthorized access incidents.",
-      image: assetUrl("images/placeholder.webp"),
+      title: "Trading Dashboard",
+      category: "Web development",
+      tools: "React.js, TypeScript, Linux, low-latency UI, real-time charts",
+      image: assetUrl("images/react2.webp"),
+    },
+    {
+      title: "Analytics Platform",
+      category: "Full-stack",
+      tools: "React, Redux, Node.js, Django REST, Material-UI",
+      image: assetUrl("images/node2.webp"),
+    },
+    {
+      title: "Facial Authentication",
+      category: "Security · Liveness",
+      tools: "Python, React.js, Bootstrap, Chrome — liveness detection",
+      image: assetUrl("images/typescript.webp"),
     },
     {
       title: "Realtime Chat App",
       category: "React · Firebase",
-      tools:
-        "React.js, Firebase Auth, Firestore — real-time messaging, faster auth flows, improved scalability.",
-      image: assetUrl("images/placeholder.webp"),
+      tools: "React.js, Firebase Auth, Firestore, real-time sync",
+      image: assetUrl("images/react.webp"),
+    },
+    {
+      title: "Market Data Pipeline",
+      category: "Python · Data",
+      tools: "Python, Pandas, NumPy, OHLCV aggregation, indicators",
+      image: assetUrl("images/mongo.webp"),
+    },
+    {
+      title: "Internal Tools Suite",
+      category: "Product engineering",
+      tools: "HTML5, CSS3, JSX, C++, performance optimisation",
+      image: assetUrl("images/next2.webp"),
     },
   ],
   develop: {

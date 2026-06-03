@@ -46,11 +46,12 @@ const Contact = () => {
             </a>
             <a
               href={profile.resumeUrl}
-              download
+              target="_blank"
+              rel="noreferrer"
               data-cursor="disable"
               className="contact-social"
             >
-              Resume <MdArrowOutward />
+              Resume (PDF) <MdArrowOutward />
             </a>
           </div>
           <div className="contact-box">

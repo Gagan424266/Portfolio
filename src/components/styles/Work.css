@@ -18,6 +18,17 @@
   flex-direction: column;
   height: 100%;
   align-content: stretch;
+  width: 100%;
+  max-width: 100%;
+}
+
+.work-heading {
+  width: var(--cWidth);
+  max-width: var(--cMaxWidth);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 0;
+  padding-right: 0;
 }
 .work-flex {
   width: 100%;
@@ -125,9 +136,24 @@
   background-color: #000;
   object-fit: cover;
 }
+.work-image-in {
+  display: block;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #111;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+}
+
 .work-image img {
+  display: block;
+  width: 100%;
   max-width: 100%;
-  max-height: 350px;
+  height: auto;
+  max-height: 480px;
+  min-height: 280px;
+  object-fit: cover;
+  object-position: top center;
 }
 @media only screen and (max-height: 900px) {
   .work-image img {
