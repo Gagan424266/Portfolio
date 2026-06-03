@@ -18,9 +18,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      # Site loads character.enc (normal git); character.glb is LFS-only and not needed for deploy
       - uses: actions/checkout@v4
-        with:
-          lfs: true
       - uses: actions/setup-node@v4
         with:
           node-version: 22
