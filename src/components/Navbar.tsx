@@ -32,17 +32,19 @@ const Navbar = () => {
   return (
     <>
       <div className="header">
-        <a href="/#" className="navbar-title" data-cursor="disable">
-          {profile.logo}
-        </a>
-        <a
-          href={`mailto:${profile.email}`}
-          className="navbar-connect"
-          data-cursor="disable"
-          title={profile.email}
-        >
-          {profile.email}
-        </a>
+        <div className="header-left">
+          <a href="/#" className="navbar-title" data-cursor="disable">
+            {profile.logo}
+          </a>
+          <a
+            href={`mailto:${profile.email}`}
+            className="navbar-connect"
+            data-cursor="disable"
+            title={profile.email}
+          >
+            {profile.email}
+          </a>
+        </div>
         <nav className="header-nav">
         <ul>
           <li>

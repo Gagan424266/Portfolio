@@ -1,8 +1,8 @@
 .header {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
+  display: flex;
   align-items: center;
-  gap: 16px 24px;
+  justify-content: space-between;
+  gap: 24px;
   max-width: var(--cMaxWidth);
   width: var(--cWidth);
   padding: 20px 0;
@@ -15,34 +15,36 @@
   z-index: 9999;
 }
 
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+  flex: 1;
+}
+
 .navbar-title {
-  grid-column: 1;
   font-weight: 700;
   font-size: 14px;
   letter-spacing: 0.2px;
-  justify-self: start;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .navbar-connect {
-  grid-column: 2;
-  justify-self: center;
-  font-size: 13px;
-  letter-spacing: 0.5px;
+  font-size: 12px;
+  letter-spacing: 0.3px;
   font-weight: 500;
-  text-align: center;
+  opacity: 0.85;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 100%;
-  padding: 0 8px;
+  max-width: min(280px, 42vw);
   display: none;
 }
 
 .header-nav {
-  grid-column: 3;
-  justify-self: end;
-  min-width: 0;
+  flex-shrink: 0;
 }
 
 .header ul {
@@ -53,7 +55,7 @@
   margin: 0;
   padding: 0;
   list-style: none;
-  column-gap: 20px;
+  column-gap: 18px;
   align-items: center;
 }
 
@@ -74,9 +76,13 @@
     padding: 20px 0;
   }
 
+  .header-left {
+    gap: 24px;
+  }
+
   .header ul {
     font-size: 13px;
-    column-gap: 24px;
+    column-gap: 22px;
   }
 
   .header ul li {
@@ -88,31 +94,35 @@
   }
 }
 
-@media only screen and (min-width: 900px) {
+@media only screen and (min-width: 768px) {
   .navbar-connect {
     display: block;
   }
 }
 
 @media only screen and (min-width: 1100px) {
+  .header-left {
+    gap: 40px;
+  }
+
   .header ul {
-    column-gap: 36px;
+    column-gap: 32px;
     font-size: 14px;
   }
 
   .navbar-connect {
     font-size: 14px;
+    max-width: 340px;
   }
 }
 
 @media only screen and (min-width: 1200px) {
   .header {
     padding: 35px 0;
-    gap: 20px 32px;
   }
 
   .header ul {
-    column-gap: 48px;
+    column-gap: 44px;
     font-size: 16px;
   }
 
@@ -127,10 +137,11 @@
 
 @media only screen and (min-width: 1500px) {
   .header ul {
-    column-gap: 64px;
+    column-gap: 56px;
   }
 
   .navbar-connect {
     font-size: 16px;
+    max-width: 400px;
   }
 }
