@@ -1,5 +1,7 @@
 # Gagan Yadav — Portfolio
 
+**Live site:** https://gagan424266.github.io/Portfolio/
+
 Personal portfolio built with React, TypeScript, Three.js, and GSAP.
 
 ## Tech stack
@@ -28,9 +30,11 @@ Edit **`src/data/profile.ts`** for name, bio, experience, projects, skills, and 
 
 Resume: `public/resume/Gagan-Yadav-Resume.docx`
 
-## Deploy
+## Deploy (GitHub Pages)
 
-Run `npm run build` and deploy the `dist/` folder (Vercel, Netlify, GitHub Pages, etc.).
+1. Repo **Settings → Pages → Build and deployment → Source:** **GitHub Actions**
+2. Push to `main` — workflow `.github/workflows/deploy.yml` publishes the site
+3. Set **About** (gear on repo home) → **Website:** `https://gagan424266.github.io/Portfolio/`
 
 ## GSAP
 
