@@ -1,3 +1,5 @@
+import { assetUrl } from "../utils/assets";
+
 /** Portfolio content — Gagan Yadav */
 export const profile = {
   name: "Gagan Yadav",
@@ -11,7 +13,7 @@ export const profile = {
   phoneTel: "+919370676861",
   githubUrl: "https://github.com/Gagan424266",
   linkedinUrl: "https://www.linkedin.com/in/gagan-yadav-584a9a214/",
-  resumeUrl: "/resume/Gagan-Yadav-Resume.docx",
+  resumeUrl: assetUrl("resume/Gagan-Yadav-Resume.docx"),
   tagline: { line1: "Full-stack", line2: "Developer" },
   logo: "GY",
   about: `Full-stack developer building low-latency trading dashboards, real-time data pipelines, and modern web platforms. I work across React, Python, C++, and Django — from tick-level OHLCV aggregation to polished UIs that stay fast under peak load.`,
@@ -67,14 +69,14 @@ export const profile = {
       category: "Liveness detection",
       tools:
         "Chrome, Python, React.js, Bootstrap — team lead; ~40% fewer unauthorized access incidents.",
-      image: "/images/placeholder.webp",
+      image: assetUrl("images/placeholder.webp"),
     },
     {
       title: "Realtime Chat App",
       category: "React · Firebase",
       tools:
         "React.js, Firebase Auth, Firestore — real-time messaging, faster auth flows, improved scalability.",
-      image: "/images/placeholder.webp",
+      image: assetUrl("images/placeholder.webp"),
     },
   ],
   develop: {

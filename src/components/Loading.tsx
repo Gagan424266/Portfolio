@@ -95,11 +95,14 @@ export default Loading;
 export const setProgress = (setLoading: (value: number) => void) => {
   let percent = 0;
   let interval = setInterval(() => {
-    if (percent < 85) {
-      percent = Math.min(85, percent + 3);
+    if (percent < 90) {
+      percent = Math.min(90, percent + 4);
+      setLoading(percent);
+    } else if (percent < 96) {
+      percent += 1;
       setLoading(percent);
     }
-  }, 80);
+  }, 120);
 
   function clear() {
     clearInterval(interval);

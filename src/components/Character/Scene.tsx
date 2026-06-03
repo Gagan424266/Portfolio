@@ -54,25 +54,39 @@ const Scene = () => {
       let progress = setProgress((value) => setLoading(value));
       const { loadCharacter } = setCharacter(renderer, scene, camera);
 
-      loadCharacter().then((gltf) => {
-        if (gltf) {
-          const animations = setAnimations(gltf);
-          hoverDivRef.current && animations.hover(gltf, hoverDivRef.current);
-          mixer = animations.mixer;
-          let character = gltf.scene;
-          setChar(character);
-          scene.add(character);
-          headBone = character.getObjectByName("spine006") || null;
-          screenLight = character.getObjectByName("screenlight") || null;
-          progress.loaded().then(() => {
+      const failSafe = window.setTimeout(() => progress.clear(), 12000);
+
+      const finishLoad = (gltf: Awaited<ReturnType<typeof loadCharacter>>) => {
+        if (!gltf) {
+          progress.clear();
+          return;
+        }
+        const animations = setAnimations(gltf);
+        hoverDivRef.current && animations.hover(gltf, hoverDivRef.current);
+        mixer = animations.mixer;
+        const character = gltf.scene;
+        setChar(character);
+        scene.add(character);
+        headBone = character.getObjectByName("spine006") || null;
+        screenLight = character.getObjectByName("screenlight") || null;
+        progress.loaded().then(() => {
+          setTimeout(() => {
             light.turnOnLights();
             animations.startIntro();
-          });
-          window.addEventListener("resize", () =>
-            handleResize(renderer, camera, canvasDiv, character)
-          );
-        }
-      });
+          }, 800);
+        });
+        window.addEventListener("resize", () =>
+          handleResize(renderer, camera, canvasDiv, character)
+        );
+      };
+
+      loadCharacter()
+        .then(finishLoad)
+        .catch((err) => {
+          console.error("Character failed to load:", err);
+          progress.clear();
+        })
+        .finally(() => window.clearTimeout(failSafe));
 
       let mouse = { x: 0, y: 0 },
         interpolation = { x: 0.1, y: 0.2 };

@@ -1,20 +1,26 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLoading } from "../../context/LoadingProvider";
 import Scene from "./Scene";
 
-const isDesktop3D = () =>
-  typeof window !== "undefined" && window.innerWidth > 1024;
-
 const CharacterModel = () => {
   const { setLoading } = useLoading();
+  const [show3D, setShow3D] = useState(
+    () => typeof window !== "undefined" && window.innerWidth > 1024
+  );
 
   useEffect(() => {
-    if (!isDesktop3D()) {
+    const onResize = () => setShow3D(window.innerWidth > 1024);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  useEffect(() => {
+    if (!show3D) {
       setLoading(100);
     }
-  }, [setLoading]);
+  }, [show3D, setLoading]);
 
-  if (!isDesktop3D()) return null;
+  if (!show3D) return null;
 
   return <Scene />;
 };
