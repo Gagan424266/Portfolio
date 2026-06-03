@@ -8,7 +8,7 @@ Personal portfolio built with React, TypeScript, Three.js, and GSAP.
 
 - React 18 · TypeScript · Vite
 - Three.js · React Three Fiber · Drei
-- GSAP (ScrollTrigger; trial plugins for local dev)
+- GSAP (ScrollTrigger, ScrollSmoother, SplitText)
 
 ## Setup
 
