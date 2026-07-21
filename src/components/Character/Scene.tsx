@@ -119,8 +119,19 @@ const Scene = () => {
         landingDiv.addEventListener("touchstart", onTouchStart);
         landingDiv.addEventListener("touchend", onTouchEnd);
       }
+      let rafId = 0;
       const animate = () => {
-        requestAnimationFrame(animate);
+        rafId = requestAnimationFrame(animate);
+
+        // Pause WebGL while Work is on-screen — frees GPU during the heavy pin scroll
+        const work = document.querySelector(".work-section");
+        if (work) {
+          const top = work.getBoundingClientRect().top;
+          if (top < window.innerHeight * 0.55 && top > -window.innerHeight) {
+            return;
+          }
+        }
+
         if (headBone) {
           handleHeadRotation(
             headBone,
@@ -140,6 +151,7 @@ const Scene = () => {
       };
       animate();
       return () => {
+        cancelAnimationFrame(rafId);
         clearTimeout(debounce);
         scene.clear();
         renderer.dispose();

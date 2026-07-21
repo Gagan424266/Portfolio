@@ -58,10 +58,12 @@ main {
     opacity: 1;
   }
 }
+html,
 body {
   margin: 0;
   height: auto;
-  background-color: #000;
+  /* Match theme — pure #000 showed through pin/compositor gaps as black flashes */
+  background-color: var(--backgroundColor);
   flex-grow: 1;
   --cWidth: calc(100% - 30px);
   --cMaxWidth: 1920px;

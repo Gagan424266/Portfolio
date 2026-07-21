@@ -9,8 +9,6 @@ interface ParaElement extends HTMLElement {
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
-let refreshBound = false;
-let refreshTimer: number | null = null;
 let splitting = false;
 
 function applySplitText() {
@@ -88,17 +86,7 @@ function applySplitText() {
 
 export default function setSplitText() {
   applySplitText();
-
-  // Register once — previous code added a new listener on every call,
-  // which cascaded with Work's ScrollTrigger.refresh() and froze scroll.
-  if (!refreshBound) {
-    refreshBound = true;
-    ScrollTrigger.addEventListener("refresh", () => {
-      if (refreshTimer != null) window.clearTimeout(refreshTimer);
-      refreshTimer = window.setTimeout(() => {
-        applySplitText();
-        refreshTimer = null;
-      }, 150);
-    });
-  }
+  // Do NOT re-split on ScrollTrigger.refresh — Work's pin refresh used to
+  // cascade into DOM SplitText rebuilds and freeze the first scroll pass.
+  // MainContainer already re-runs this on window resize.
 }

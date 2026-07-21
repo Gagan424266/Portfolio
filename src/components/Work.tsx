@@ -12,38 +12,29 @@ const Work = () => {
     if (window.innerWidth <= 1024) return;
 
     let translateX = 0;
-    let built = false;
 
+    /** Layout-based distance — does not zero the transform (avoids mid-pin flash). */
     function setTranslateX() {
       const flex = document.querySelector(".work-flex") as HTMLElement | null;
       const boxes = document.getElementsByClassName("work-box");
-      if (!flex || boxes.length < 2) {
+      if (!flex || boxes.length < 1) {
         translateX = 0;
         return;
       }
 
-      const prevX = Number(gsap.getProperty(flex, "x")) || 0;
-      gsap.set(flex, { x: 0 });
-      void flex.offsetWidth;
-
-      const last = boxes[boxes.length - 1] as HTMLElement;
-      const lastRect = last.getBoundingClientRect();
-      const viewport = window.innerWidth;
-      translateX = Math.max(0, Math.round(lastRect.right - viewport + 32));
-
-      if (translateX < 100) {
-        translateX = Math.max(0, Math.round(flex.scrollWidth - viewport));
+      const padL = parseFloat(getComputedStyle(flex).paddingLeft) || 0;
+      let contentW = padL;
+      for (let i = 0; i < boxes.length; i++) {
+        contentW += (boxes[i] as HTMLElement).offsetWidth;
       }
-
-      // Restore progress position if we were mid-scroll
-      gsap.set(flex, { x: prevX });
+      // Small pad so the last card fully clears the right edge
+      translateX = Math.max(0, Math.round(contentW - window.innerWidth + 24));
     }
 
     function buildScroll(force = false) {
       if (window.innerWidth <= 1024) {
         ScrollTrigger.getById("work")?.kill();
-        gsap.set(".work-flex", { x: 0 });
-        built = false;
+        gsap.set(".work-flex", { clearProps: "transform" });
         return;
       }
 
@@ -52,36 +43,39 @@ const Work = () => {
 
       const existing = ScrollTrigger.getById("work");
       if (existing && !force) {
-        // Update end distance without tearing down pin (avoids hitch)
         existing.vars.end = `+=${translateX}`;
+        const tween = existing.animation;
+        if (tween) {
+          gsap.set(".work-flex", {
+            x: () => -translateX * (existing.progress || 0),
+          });
+        }
         existing.refresh();
         return;
       }
 
       existing?.kill();
-      built = true;
 
       gsap.timeline({
         scrollTrigger: {
           trigger: ".work-section",
           start: "top top",
           end: () => `+=${Math.max(translateX, 1)}`,
-          scrub: true,
+          scrub: 0.35,
           pin: true,
           pinSpacing: true,
           anticipatePin: 1,
           id: "work",
           invalidateOnRefresh: true,
           fastScrollEnd: true,
+          preventOverlaps: true,
         },
       }).to(".work-flex", {
         x: () => -translateX,
         ease: "none",
-        force3D: true,
       });
     }
 
-    // Eager-decode project covers before first pin (lazy load caused first-scroll jank)
     const imgs = Array.from(
       document.querySelectorAll(".work-section img")
     ) as HTMLImageElement[];
@@ -98,11 +92,11 @@ const Work = () => {
       resizeTimer = window.setTimeout(() => {
         buildScroll(true);
         ScrollTrigger.refresh();
-      }, 120);
+      }, 150);
     };
     window.addEventListener("resize", onResize);
 
-    // Single rebuild after all images settle — not once per image
+    // Soft update after images settle — keep pin alive, only recalc distance
     Promise.all(
       imgs.map((img) =>
         img.decode
@@ -115,7 +109,7 @@ const Work = () => {
               })
       )
     ).then(() => {
-      buildScroll(true);
+      buildScroll(false);
       ScrollTrigger.refresh();
     });
 
@@ -123,7 +117,6 @@ const Work = () => {
       if (resizeTimer != null) window.clearTimeout(resizeTimer);
       window.removeEventListener("resize", onResize);
       ScrollTrigger.getById("work")?.kill();
-      void built;
     };
   }, []);
 
