@@ -82,6 +82,13 @@ export const profile = {
       githubUrl: "https://github.com/Gagan424266/ProofWeave",
     },
     {
+      title: "GM WebServer",
+      category: "Trading · Webhook Bridge",
+      tools: "C++17, libmicrohttpd, TradingView webhooks, CMS/OMS TCP, Postgres symbol resolution",
+      image: assetUrl("images/next.webp"),
+      githubUrl: "https://github.com/Gagan424266/GM-WebServer",
+    },
+    {
       title: "CodeArena",
       category: "Full-stack · Online Judge",
       tools: "React, Node.js, C++ judge, DSA problems, Cloudflare Pages Functions",
