@@ -40,7 +40,8 @@
   margin-left: 0;
   /* First project column starts inset — was margin-left: -80px (flush left) */
   padding-left: var(--work-gutter);
-  padding-right: clamp(80px, 12vw, 200px);
+  /* Keep end padding tiny so horizontal pin ends on the last card */
+  padding-right: 0;
   position: relative;
   box-sizing: border-box;
 }
@@ -57,6 +58,9 @@
 }
 .work-flex .work-box:first-child {
   padding-left: 40px;
+}
+.work-flex .work-box:last-child {
+  border-right: none;
 }
 .work-flex .work-box:nth-child(even) {
   flex-direction: column-reverse;
@@ -220,7 +224,7 @@
   }
   .work-flex {
     margin-left: 0;
-    padding-right: clamp(60px, 10vw, 120px);
+    padding-right: 0;
   }
   .work-section h2 {
     font-size: 50px;
