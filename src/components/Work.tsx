@@ -16,20 +16,35 @@ const Work = () => {
     function setTranslateX() {
       const flex = document.querySelector(".work-flex") as HTMLElement | null;
       const boxes = document.getElementsByClassName("work-box");
-      if (!flex || !boxes.length) return;
+      if (!flex || boxes.length < 2) {
+        translateX = 0;
+        return;
+      }
 
-      // Measure with transform cleared so offsetLeft is accurate
-      gsap.set(flex, { x: 0 });
+      // Clear transform before measuring
+      gsap.set(flex, { x: 0, clearProps: "transform" });
+      void flex.offsetWidth;
 
       const last = boxes[boxes.length - 1] as HTMLElement;
-      const lastRight = last.offsetLeft + last.offsetWidth;
+      const lastRect = last.getBoundingClientRect();
       const viewport = window.innerWidth;
-      // End as soon as the last card is fully in view — no trailing empty strip
-      const endPad = 24;
-      translateX = Math.max(0, Math.ceil(lastRight - viewport + endPad));
+      // Scroll until the last card's right edge reaches the viewport (small pad)
+      translateX = Math.max(0, Math.round(lastRect.right - viewport + 32));
+
+      // Fallback if rect math fails (e.g. not laid out yet)
+      if (translateX < 100) {
+        const byScroll = flex.scrollWidth - viewport;
+        translateX = Math.max(0, Math.round(byScroll));
+      }
     }
 
     const buildScroll = () => {
+      if (window.innerWidth <= 1024) {
+        ScrollTrigger.getById("work")?.kill();
+        gsap.set(".work-flex", { x: 0, clearProps: "transform" });
+        return;
+      }
+
       ScrollTrigger.getById("work")?.kill();
       setTranslateX();
       if (translateX <= 0) return;
@@ -38,8 +53,8 @@ const Work = () => {
         scrollTrigger: {
           trigger: ".work-section",
           start: "top top",
-          end: () => `+=${translateX}`,
-          scrub: 0.45,
+          end: () => `+=${Math.max(translateX, 1)}`,
+          scrub: true,
           pin: true,
           pinSpacing: true,
           anticipatePin: 1,
@@ -47,32 +62,42 @@ const Work = () => {
           invalidateOnRefresh: true,
         },
       }).to(".work-flex", {
-        x: -translateX,
+        x: () => -translateX,
         ease: "none",
       });
     };
 
     buildScroll();
-    window.addEventListener("resize", buildScroll);
-
-    // Recalc after project images load (height/width can shift scroll distance)
-    const imgs = Array.from(document.querySelectorAll(".work-section img"));
-    const onImg = () => {
+    const onResize = () => {
       buildScroll();
       ScrollTrigger.refresh();
     };
+    window.addEventListener("resize", onResize);
+
+    const imgs = Array.from(
+      document.querySelectorAll(".work-section img")
+    ) as HTMLImageElement[];
     imgs.forEach((img) => {
-      if (!(img as HTMLImageElement).complete) {
-        img.addEventListener("load", onImg, { once: true });
+      if (!img.complete) {
+        img.addEventListener(
+          "load",
+          () => {
+            buildScroll();
+            ScrollTrigger.refresh();
+          },
+          { once: true }
+        );
       }
     });
-    requestAnimationFrame(() => {
-      buildScroll();
-      ScrollTrigger.refresh();
-    });
+
+    // Second pass after layout settles
+    const t1 = window.setTimeout(onResize, 100);
+    const t2 = window.setTimeout(onResize, 500);
 
     return () => {
-      window.removeEventListener("resize", buildScroll);
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
+      window.removeEventListener("resize", onResize);
       ScrollTrigger.getById("work")?.kill();
     };
   }, []);
