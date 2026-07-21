@@ -82,11 +82,11 @@ export const profile = {
       githubUrl: "https://github.com/Gagan424266/ProofWeave",
     },
     {
-      title: "GM WebServer",
+      title: "TVBridge",
       category: "Trading · Webhook Bridge",
-      tools: "C++17, libmicrohttpd, TradingView webhooks, CMS/OMS TCP, Postgres symbol resolution",
+      tools: "C++17, libmicrohttpd, TradingView webhooks, OMS/CMS TCP, Postgres symbol resolution",
       image: assetUrl("images/next.webp"),
-      githubUrl: "https://github.com/Gagan424266/GM-WebServer",
+      githubUrl: "https://github.com/Gagan424266/TVBridge",
     },
     {
       title: "CodeArena",
