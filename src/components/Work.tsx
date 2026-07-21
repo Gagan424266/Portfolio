@@ -14,17 +14,16 @@ const Work = () => {
     let translateX = 0;
 
     function setTranslateX() {
-      const box = document.getElementsByClassName("work-box");
-      if (!box.length) return;
-      const container = document.querySelector(".work-container");
-      if (!container) return;
-      const rectLeft = container.getBoundingClientRect().left;
-      const rect = box[0].getBoundingClientRect();
-      const parentWidth = box[0].parentElement!.getBoundingClientRect().width;
-      const padding =
-        parseInt(window.getComputedStyle(box[0]).paddingLeft, 10) / 2 || 40;
-      translateX =
-        rect.width * box.length - (rectLeft + parentWidth) + padding;
+      const flex = document.querySelector(".work-flex") as HTMLElement | null;
+      const boxes = document.getElementsByClassName("work-box");
+      if (!flex || !boxes.length) return;
+      // Scroll until the last card sits with the same left gutter as the first
+      const gutter =
+        parseFloat(getComputedStyle(document.querySelector(".work-section")!).getPropertyValue("--work-gutter")) ||
+        80;
+      const totalWidth = flex.scrollWidth;
+      const viewport = window.innerWidth;
+      translateX = Math.max(0, totalWidth - viewport + gutter);
     }
 
     const buildScroll = () => {
@@ -36,9 +35,10 @@ const Work = () => {
         scrollTrigger: {
           trigger: ".work-section",
           start: "top top",
-          end: `+=${translateX}`,
-          scrub: true,
+          end: () => `+=${translateX}`,
+          scrub: 0.65,
           pin: true,
+          anticipatePin: 1,
           id: "work",
           invalidateOnRefresh: true,
         },
@@ -60,7 +60,7 @@ const Work = () => {
   return (
     <div className="work-section" id="work">
       <div className="work-container">
-        <h2 className="work-heading section-container">
+        <h2 className="work-heading">
           My <span>Work</span>
         </h2>
         <div className="work-flex">
