@@ -9,12 +9,19 @@ interface ParaElement extends HTMLElement {
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
-export default function setSplitText() {
-  ScrollTrigger.config({ ignoreMobileResize: true });
+let refreshBound = false;
+let refreshTimer: number | null = null;
+let splitting = false;
+
+function applySplitText() {
+  if (splitting) return;
   if (window.innerWidth < 900) return;
+
+  splitting = true;
+  ScrollTrigger.config({ ignoreMobileResize: true });
+
   const paras: NodeListOf<ParaElement> = document.querySelectorAll(".para");
   const titles: NodeListOf<ParaElement> = document.querySelectorAll(".title");
-
   const TriggerStart = window.innerWidth <= 1024 ? "top 60%" : "20% 60%";
   const ToggleAction = "play pause resume reverse";
 
@@ -47,6 +54,7 @@ export default function setSplitText() {
       }
     );
   });
+
   titles.forEach((title: ParaElement) => {
     if (title.anim) {
       title.anim.progress(1).kill();
@@ -75,5 +83,22 @@ export default function setSplitText() {
     );
   });
 
-  ScrollTrigger.addEventListener("refresh", () => setSplitText());
+  splitting = false;
+}
+
+export default function setSplitText() {
+  applySplitText();
+
+  // Register once — previous code added a new listener on every call,
+  // which cascaded with Work's ScrollTrigger.refresh() and froze scroll.
+  if (!refreshBound) {
+    refreshBound = true;
+    ScrollTrigger.addEventListener("refresh", () => {
+      if (refreshTimer != null) window.clearTimeout(refreshTimer);
+      refreshTimer = window.setTimeout(() => {
+        applySplitText();
+        refreshTimer = null;
+      }, 150);
+    });
+  }
 }

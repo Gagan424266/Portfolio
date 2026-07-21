@@ -39,7 +39,7 @@ const MainContainer = ({ children }: PropsWithChildren) => {
           observer.disconnect();
         }
       },
-      { rootMargin: "200px" }
+      { rootMargin: "80px" }
     );
     observer.observe(el);
     return () => observer.disconnect();

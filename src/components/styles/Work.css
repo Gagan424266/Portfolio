@@ -10,7 +10,6 @@
   transition: 0s;
   height: 100vh;
   box-sizing: border-box;
-  will-change: transform;
   /* Shared left gutter — matches moncy-style inset, not flush to edge */
   --work-gutter: clamp(48px, 6vw, 120px);
 }
@@ -44,6 +43,8 @@
   padding-right: 0;
   position: relative;
   box-sizing: border-box;
+  will-change: transform;
+  transform: translateZ(0);
 }
 .work-box {
   padding: 80px;
@@ -68,13 +69,12 @@
 .work-flex::before,
 .work-flex::after {
   content: "";
-  width: calc(50000vw);
+  position: absolute;
+  left: -50vw;
+  right: -50vw;
   height: 1px;
   background-color: #363636;
-  position: absolute;
-  left: 50%;
-  top: 0;
-  transform: translateX(-50%);
+  pointer-events: none;
 }
 .work-flex::after {
   top: 100%;

@@ -12,6 +12,7 @@ const Work = () => {
     if (window.innerWidth <= 1024) return;
 
     let translateX = 0;
+    let built = false;
 
     function setTranslateX() {
       const flex = document.querySelector(".work-flex") as HTMLElement | null;
@@ -21,33 +22,44 @@ const Work = () => {
         return;
       }
 
-      // Clear transform before measuring
-      gsap.set(flex, { x: 0, clearProps: "transform" });
+      const prevX = Number(gsap.getProperty(flex, "x")) || 0;
+      gsap.set(flex, { x: 0 });
       void flex.offsetWidth;
 
       const last = boxes[boxes.length - 1] as HTMLElement;
       const lastRect = last.getBoundingClientRect();
       const viewport = window.innerWidth;
-      // Scroll until the last card's right edge reaches the viewport (small pad)
       translateX = Math.max(0, Math.round(lastRect.right - viewport + 32));
 
-      // Fallback if rect math fails (e.g. not laid out yet)
       if (translateX < 100) {
-        const byScroll = flex.scrollWidth - viewport;
-        translateX = Math.max(0, Math.round(byScroll));
+        translateX = Math.max(0, Math.round(flex.scrollWidth - viewport));
       }
+
+      // Restore progress position if we were mid-scroll
+      gsap.set(flex, { x: prevX });
     }
 
-    const buildScroll = () => {
+    function buildScroll(force = false) {
       if (window.innerWidth <= 1024) {
         ScrollTrigger.getById("work")?.kill();
-        gsap.set(".work-flex", { x: 0, clearProps: "transform" });
+        gsap.set(".work-flex", { x: 0 });
+        built = false;
         return;
       }
 
-      ScrollTrigger.getById("work")?.kill();
       setTranslateX();
       if (translateX <= 0) return;
+
+      const existing = ScrollTrigger.getById("work");
+      if (existing && !force) {
+        // Update end distance without tearing down pin (avoids hitch)
+        existing.vars.end = `+=${translateX}`;
+        existing.refresh();
+        return;
+      }
+
+      existing?.kill();
+      built = true;
 
       gsap.timeline({
         scrollTrigger: {
@@ -60,45 +72,58 @@ const Work = () => {
           anticipatePin: 1,
           id: "work",
           invalidateOnRefresh: true,
+          fastScrollEnd: true,
         },
       }).to(".work-flex", {
         x: () => -translateX,
         ease: "none",
+        force3D: true,
       });
-    };
+    }
 
-    buildScroll();
-    const onResize = () => {
-      buildScroll();
-      ScrollTrigger.refresh();
-    };
-    window.addEventListener("resize", onResize);
-
+    // Eager-decode project covers before first pin (lazy load caused first-scroll jank)
     const imgs = Array.from(
       document.querySelectorAll(".work-section img")
     ) as HTMLImageElement[];
     imgs.forEach((img) => {
-      if (!img.complete) {
-        img.addEventListener(
-          "load",
-          () => {
-            buildScroll();
-            ScrollTrigger.refresh();
-          },
-          { once: true }
-        );
-      }
+      img.loading = "eager";
+      img.decode?.().catch(() => undefined);
     });
 
-    // Second pass after layout settles
-    const t1 = window.setTimeout(onResize, 100);
-    const t2 = window.setTimeout(onResize, 500);
+    buildScroll(true);
+
+    let resizeTimer: number | null = null;
+    const onResize = () => {
+      if (resizeTimer != null) window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(() => {
+        buildScroll(true);
+        ScrollTrigger.refresh();
+      }, 120);
+    };
+    window.addEventListener("resize", onResize);
+
+    // Single rebuild after all images settle — not once per image
+    Promise.all(
+      imgs.map((img) =>
+        img.decode
+          ? img.decode().catch(() => undefined)
+          : img.complete
+            ? Promise.resolve()
+            : new Promise<void>((res) => {
+                img.addEventListener("load", () => res(), { once: true });
+                img.addEventListener("error", () => res(), { once: true });
+              })
+      )
+    ).then(() => {
+      buildScroll(true);
+      ScrollTrigger.refresh();
+    });
 
     return () => {
-      window.clearTimeout(t1);
-      window.clearTimeout(t2);
+      if (resizeTimer != null) window.clearTimeout(resizeTimer);
       window.removeEventListener("resize", onResize);
       ScrollTrigger.getById("work")?.kill();
+      void built;
     };
   }, []);
 
