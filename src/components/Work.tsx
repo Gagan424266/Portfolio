@@ -68,7 +68,7 @@ const Work = () => {
             <div className="work-box" key={project.title}>
               <div className="work-info">
                 <div className="work-title">
-                  <h3>0{index + 1}</h3>
+                  <h3>{String(index + 1).padStart(2, "0")}</h3>
                   <div>
                     <h4>{project.title}</h4>
                     <p>{project.category}</p>
@@ -76,6 +76,28 @@ const Work = () => {
                 </div>
                 <h4>Tools and features</h4>
                 <p>{project.tools}</p>
+                {("liveUrl" in project || "githubUrl" in project) && (
+                  <div className="work-links">
+                    {"liveUrl" in project && project.liveUrl && (
+                      <a
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Live demo
+                      </a>
+                    )}
+                    {"githubUrl" in project && project.githubUrl && (
+                      <a
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        GitHub
+                      </a>
+                    )}
+                  </div>
+                )}
               </div>
               <WorkImage image={project.image} alt={project.title} />
             </div>

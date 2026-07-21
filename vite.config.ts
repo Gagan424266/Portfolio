@@ -4,7 +4,8 @@ import react from "@vitejs/plugin-react";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: "/Portfolio/",
+  // Cloudflare Pages (and custom domain) serve from site root
+  base: "/",
   build: {
     rollupOptions: {
       output: {

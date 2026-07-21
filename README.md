@@ -1,8 +1,10 @@
 # Gagan Yadav — Portfolio
 
-**Live site:** https://gagan424266.github.io/Portfolio/
+**Live site:** https://gagan-yadav.pages.dev
 
 Personal portfolio built with React, TypeScript, Three.js, and GSAP.
+
+Featured work (in order): SentinelOps, ProofWeave, CodeArena, FlowForge, PulseTrade, RouteFleet, PayLedger.
 
 ## Tech stack
 
@@ -28,13 +30,15 @@ npm run preview
 
 Edit **`src/data/profile.ts`** for name, bio, experience, projects, skills, and links.
 
-Resume: `public/resume/Gagan-Yadav-Resume.docx`
+Resume: `public/resume/Gagan-Yadav-Resume.pdf`
 
-## Deploy (GitHub Pages)
+## Deploy (Cloudflare Pages)
 
-1. Repo **Settings → Pages → Build and deployment → Source:** **GitHub Actions**
-2. Push to `main` — workflow `.github/workflows/deploy.yml` publishes the site
-3. Set **About** (gear on repo home) → **Website:** `https://gagan424266.github.io/Portfolio/`
+1. Push to `main` — workflow `.github/workflows/deploy.yml` deploys to project `gagan-yadav`
+2. Repo secrets required: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`
+3. Manual deploy: `npm run build && npx wrangler pages deploy dist --project-name=gagan-yadav`
+
+**Custom domain:** `gagan-yadav.dev` and `gagan007.dev` appear available (DNS NXDOMAIN). Note: `gagan_yadav.dev` is invalid (underscores not allowed); `gaganyadav.dev` is already taken. After you purchase a domain, add it under Cloudflare Pages → `gagan-yadav` → Custom domains.
 
 ## GSAP
 
