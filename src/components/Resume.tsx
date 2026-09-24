@@ -9,8 +9,8 @@ const Resume = () => {
         My <span>Resume</span>
       </h2>
       <p className="resume-intro">
-        Full-stack developer — React, Python, C++, and Django. Download or open
-        the PDF below.
+        Generalist and full-stack developer — React, Python, C++, Django, and
+        model evaluation. Download or open the PDF below.
       </p>
       <div className="resume-actions">
         <a
